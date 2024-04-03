@@ -39,6 +39,8 @@ def criar_usuario(nome_arquivo, usuario, senha):
 # criar_usuario('usuarios.txt', 'euuu', 'sabo')
 # criar_usuario('usuarios.txt', 'sabo', 'sapu')
 # criar_usuario('usuarios.txt', 'muto', 'snha')
+# criar_usuario('usuarios.txt', 'popo', 'minm')
+
 
 # Identificação do usuário
 usuarios = ler_arquivo(ARQUIVO)
