@@ -8,14 +8,14 @@ muto snha
 
 ARQUIVO = 'usuarios.txt'
 
-
+# Função para salvar usuário e senha no arquivo
 def salvar_arquivo(nome_arquivo, nome_usuario, senha):
     with open(nome_arquivo, 'a+') as arquivo:
         hash_senha = hashlib.sha256(senha.encode())
         hash_senha = hash_senha.hexdigest()
         arquivo.write(f"{nome_usuario},{hash_senha}\n")
 
-
+# Função para ler usuários e senhas do arquivo
 def ler_arquivo(nome_arquivo):
     with open(nome_arquivo, 'r') as arquivo:
         linhas = arquivo.readlines()
@@ -27,59 +27,50 @@ def ler_arquivo(nome_arquivo):
 
     return usuarios
 
+# Função para criar um novo usuário
+def criar_usuario(nome_arquivo):
+    nome_usuario = input("Digite seu usuário: ")
+    senha_usuario = input("Digite sua senha: ")
+    salvar_arquivo(nome_arquivo, nome_usuario, senha_usuario)
 
-def criar_usuario(nome_arquivo, usuario, senha):
-    usuario = input("Digite seu usuário: ")
-    senha = input("Digite sua senha: ")
+# Função para autenticar o usuário
+def autenticar_usuario(nome_usuario, senha_usuario, usuarios):
+    for usuario in usuarios:
+        nome = usuario[0]
+        senha = usuario[1]
+        senha_hash = hashlib.sha256(senha_usuario.encode()).hexdigest()
 
-    salvar_arquivo(nome_arquivo, usuario, senha)
+        if nome == nome_usuario and senha == senha_hash:
+            return True
 
-
-# Criando usuário
-# criar_usuario('usuarios.txt', 'euuu', 'sabo')
-# criar_usuario('usuarios.txt', 'sabo', 'sapu')
-# criar_usuario('usuarios.txt', 'muto', 'snha')
-# criar_usuario('usuarios.txt', 'popo', 'minm')
-
-
-# Identificação do usuário
-usuarios = ler_arquivo(ARQUIVO)
-
-nome_usuario = input("Digite seu usuário: ")
-senha_usuario = input("Digite sua senha: ")
-
-# hash_senha = hashlib.sha256(senha.encode())
-# hash_senha = hash_senha.hexdigest()
-
-usuario_existe = False
-for usuario in usuarios:
-    nome = usuario[0]
-    senha = usuario[1]
-    if nome == nome_usuario:
-        print('user existe')
-        usuario_existe = True
-
-if usuario_existe == False:
-    salvar_arquivo(ARQUIVO, nome_usuario, senha_usuario)
-
-# SUBSTITUIR POR CÓDIGO
-# Verifico nome de usuário e, se existir, mostro que o usuário existe e paro execução do loop (break)
-# Senão, mostro que o usuário não existe e paro execução do loop (break)
-# FIM SUBSTITUIR POR CÓDIGO
-
-for usuario in usuarios:
-    nome = usuario[0]
-    senha = usuario[1]
-    senha_hash = hashlib.sha256(senha_usuario.encode())
-    senha_hash = senha_hash.hexdigest()
-
-    if senha_hash == senha:
-        print('autenticado')
+    return False
 
 
-# SUBSTITUIR POR CÓDIGO
-# Verifico nome de usuário e, se existir, faço autenticação comparando senha fornecida pelo teclado
-# com senha armazenada na variável 'senha'.
-#   Se as senhas forem iguais, então mostre para o usuário "Seja bem vindo" e pare a execução do loop (break)
-#   Senão, mostre "Usuário ou senha incorreto" e pare a execução do loop (break)
-# FIM SUBSTITUIR POR CÓDIGO
+resposta = int(input('Digite 1 para se cadastrar e 2 para logar: '))
+
+
+if resposta == 1:
+    criar_usuario(ARQUIVO)
+
+
+elif resposta == 2:
+    i = 0
+    while True:
+        
+        usuarios = ler_arquivo(ARQUIVO)
+        nome_usuario = input("Digite seu usuário: ")
+        senha_usuario = input("Digite sua senha: ")
+        if i < 2:
+            if autenticar_usuario(nome_usuario, senha_usuario, usuarios):
+                print('Autenticado com sucesso!')
+                break
+            else:
+                i += 1
+                print('Usuário ou senha incorretos. Tente novamente.')
+        else:
+            print('Você atingiu o numero maximo de tentativas')
+            break
+            
+else:
+    print('Resposta inválida.')
+    
