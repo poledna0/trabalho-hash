@@ -32,6 +32,7 @@ def criar_usuario(nome_arquivo):
     nome_usuario = input("Digite seu usuário: ")
     senha_usuario = input("Digite sua senha: ")
     salvar_arquivo(nome_arquivo, nome_usuario, senha_usuario)
+    print('user criado')
 
 # Função para autenticar o usuário
 def autenticar_usuario(nome_usuario, senha_usuario, usuarios):
