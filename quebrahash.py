@@ -8,7 +8,7 @@ from time import perf_counter
 
 PROCS = 16 # one less that CPU count
 MAXLEN = 4
-DIGEST = "5fa28ce7d04ee5f2054cc1722ad8f5f7ce11b75dc041d91e1cd934cf82eec2ca"
+DIGEST = "99dec47980fdec089930a382ecfb4b8d35e1ca109b56a397cabcbfa4f51d786a"
 BATCH = 10_000 # empirically determined to be a fairly good batch size
 
 #print(f"{printable[:-6]}")
