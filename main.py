@@ -1,21 +1,12 @@
 import hashlib
 
-'''
-euuu sabo
-sabo sapu
-muto snha
-'''
-
 ARQUIVO = 'usuarios.txt'
 
-# Função para salvar usuário e senha no arquivo
 def salvar_arquivo(nome_arquivo, nome_usuario, senha):
     with open(nome_arquivo, 'a+') as arquivo:
-        hash_senha = hashlib.sha256(senha.encode())
-        hash_senha = hash_senha.hexdigest()
+        hash_senha = hashlib.sha256(senha.encode()).hexdigest()
         arquivo.write(f"{nome_usuario},{hash_senha}\n")
 
-# Função para ler usuários e senhas do arquivo
 def ler_arquivo(nome_arquivo):
     with open(nome_arquivo, 'r') as arquivo:
         linhas = arquivo.readlines()
@@ -27,37 +18,32 @@ def ler_arquivo(nome_arquivo):
 
     return usuarios
 
-# Função para criar um novo usuário
 def criar_usuario(nome_arquivo):
     nome_usuario = input("Digite seu usuário: ")
     senha_usuario = input("Digite sua senha: ")
     salvar_arquivo(nome_arquivo, nome_usuario, senha_usuario)
-    print('user criado')
+    print('Usuário criado com sucesso!')
 
-# Função para autenticar o usuário
 def autenticar_usuario(nome_usuario, senha_usuario, usuarios):
     for usuario in usuarios:
         nome = usuario[0]
-        senha = usuario[1]
-        senha_hash = hashlib.sha256(senha_usuario.encode()).hexdigest()
+        senha_hash = usuario[1]
 
-        if nome == nome_usuario and senha == senha_hash:
-            return True
+        if nome == nome_usuario:
+            if hashlib.sha256(senha_usuario.encode()).hexdigest() == senha_hash:
+                return True
 
     return False
 
 
 resposta = int(input('Digite 1 para se cadastrar e 2 para logar: '))
 
-
 if resposta == 1:
     criar_usuario(ARQUIVO)
-
 
 elif resposta == 2:
     i = 0
     while True:
-        
         usuarios = ler_arquivo(ARQUIVO)
         nome_usuario = input("Digite seu usuário: ")
         senha_usuario = input("Digite sua senha: ")
@@ -69,9 +55,8 @@ elif resposta == 2:
                 i += 1
                 print('Usuário ou senha incorretos. Tente novamente.')
         else:
-            print('Você atingiu o numero maximo de tentativas')
+            print('Você atingiu o número máximo de tentativas.')
             break
-            
+
 else:
     print('Resposta inválida.')
-    
