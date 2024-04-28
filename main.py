@@ -60,3 +60,5 @@ elif resposta == 2:
 
 else:
     print('Resposta inválida.')
+
+#teste
